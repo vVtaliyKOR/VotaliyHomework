@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OOP</title>
+</head>
+<body>
+    
+    <h1>Login Form Example</h1>
+    <form>
+      <div>
+        <label for="username-input">Username:</label>
+        <input type="text" id="username-input">
+      </div>
+      <div>
+        <label for="password-input">Password:</label>
+        <div id="password-container"></div>
+      </div>
+      <div>
+        <button type="submit" id="login-button" disabled>Login</button>
+      </div>
+    </form>
+    <script>
+      function Password(parent, open) {
+        this.parent = parent;
+        this.onChange = null;
+        this.onOpenChange = null;
+
+        const input = document.createElement('input');
+        input.type = open ? 'text' : 'password';
+
+        input.addEventListener('input', (event) => {
+          if (this.onChange) {
+            this.onChange(event.target.value);
+          }
+        });
+
+        const toggle = document.createElement('input');
+        toggle.type = 'checkbox';
+        toggle.checked = open;
+
+        toggle.addEventListener('change', (event) => {
+          input.type = event.target.checked ? 'text' : 'password';
+          if (this.onOpenChange) {
+            this.onOpenChange(event.target.checked);
+          }
+        });
+
+        this.setValue = function(value) {
+          input.value = value;
+        };
+
+        this.getValue = function() {
+          return input.value;
+        };
+
+        this.setOpen = function(open) {
+          input.type = open ? 'text' : 'password';
+          toggle.checked = open;
+        };
+
+        this.getOpen = function() {
+          return toggle.checked;
+        };
+
+        const container = document.createElement('div');
+        container.appendChild(input);
+        container.appendChild(toggle);
+
+        this.parent.appendChild(container);
+      }
+
+      const usernameInput = document.getElementById('username-input');
+      const passwordContainer = document.getElementById('password-container');
+      const loginButton = document.getElementById('login-button');
+
+      const passwordField = new Password(passwordContainer, false);
+
+      usernameInput.addEventListener('input', updateLoginButtonState);
+      passwordField.onChange = updateLoginButtonState;
+
+      function updateLoginButtonState() {
+        if (usernameInput.value.trim().length > 0 && passwordField.getValue().trim().length > 0) {
+          loginButton.disabled = false;
+        } else {
+          loginButton.disabled = true;
+        }
+      }
+
+  // function loginID
+
+  function LoginFormId(usernameInput, passwordContainer, loginButton) {
+  const mySelf = this;
+
+  this.usernameInput = usernameInput;
+  this.passwordField = new Password(passwordContainer, false);
+  this.loginButton = loginButton;
+
+  function Password(parent, open) {
+    this.parent = parent;
+    this.onChange = null;
+    this.onOpenChange = null;
+
+    const input = document.createElement('input');
+    input.type = open ? 'text' : 'password';
+
+    input.addEventListener('input', (event) => {
+      if (this.onChange) {
+        this.onChange(event.target.value);
+      }
+    });
+
+    const toggle = document.createElement('input');
+    toggle.type = 'checkbox';
+    toggle.checked = open;
+
+    toggle.addEventListener('change', (event) => {
+      input.type = event.target.checked ? 'text' : 'password';
+      if (this.onOpenChange) {
+        this.onOpenChange(event.target.checked);
+      }
+    });
+
+    this.setValue = function(value) {
+      input.value = value;
+    };
+
+    this.getValue = function() {
+      return input.value;
+    };
+
+    this.setOpen = function(open) {
+      input.type = open ? 'text' : 'password';
+      toggle.checked = open;
+    };
+
+    this.getOpen = function() {
+      return toggle.checked;
+    };
+
+    const container = document.createElement('div');
+    container.appendChild(input);
+    container.appendChild(toggle);
+
+    this.parent.appendChild(container);
+  }
+
+  this.setPasswordValue = function(value) {
+    this.passwordField.setValue(value);
+  };
+
+  this.getPasswordValue = function() {
+    return this.passwordField.getValue();
+  };
+
+  this.setPasswordOpen = function(open) {
+    this.passwordField.setOpen(open);
+  };
+
+  this.getPasswordOpen = function() {
+    return this.passwordField.getOpen();
+  };
+
+  this.setUsernameInputCallback = function(callback) {
+    this.usernameInput.addEventListener('input', callback);
+  };
+
+  this.setPasswordFieldCallback = function(callback) {
+    this.passwordField.onChange = callback;
+  };
+
+  this.setLoginButtonState = function(enabled) {
+    this.loginButton.disabled = !enabled;
+  };
+
+  this.updateLoginButtonState = function() {
+    const username = mySelf.usernameInput.value.trim();
+    const password = mySelf.passwordField.getValue().trim();
+    const enabled = username.length > 0 && password.length > 0;
+    mySelf.setLoginButtonState(enabled);
+  };
+
+  this.setUsernameInputCallback(this.updateLoginButtonState);
+  this.setPasswordFieldCallback(this.updateLoginButtonState);
+}
+
+
+  
+    </script>
+</body>
+</html>
